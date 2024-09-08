@@ -1,0 +1,38 @@
+SLF4J(W): Class path contains multiple SLF4J providers.
+SLF4J(W): Found provider [scribe.slf4j.ScribeServiceProvider@339b173c]
+SLF4J(W): Found provider [ch.qos.logback.classic.spi.LogbackServiceProvider@63959c03]
+SLF4J(W): See https://www.slf4j.org/codes.html#multiple_bindings for an explanation.
+SLF4J(I): Actual provider is of type [scribe.slf4j.ScribeServiceProvider@339b173c]
+2024.09.08 23:49:31 WARN  Flyway upgrade recommended: H2 2.3.230 is newer than this version of Flyway and support has not been tested. The latest supported version of H2 is 2.2.220.[0m
+2024.09.08 23:49:33 INFO  no build target found for /home/math/cs332-assign/recfun/src/main/scala/common/package.scala. Using presentation compiler with project's scala-library version: 3.3.3[0m
+2024.09.08 23:49:34 INFO  no build target found for /home/math/cs332-assign/recfun/src/main/scala/common/package.scala. Using presentation compiler with project's scala-library version: 3.3.3[0m
+2024.09.08 23:49:34 WARN  Unsupported sbt version 0.13.13[0m
+2024.09.08 23:49:34 WARN  Build server is not auto-connectable.[0m
+2024.09.08 23:49:34 INFO  no build target found for /home/math/cs332-assign/recfun/src/main/scala/common/package.scala. Using presentation compiler with project's scala-library version: 3.3.3[0m
+2024.09.08 23:49:40 INFO  time: code lens generation in 5.93s[0m
+2024.09.08 23:49:40 INFO  no build target found for /home/math/cs332-assign/recfun/src/main/scala/common/package.scala. Using presentation compiler with project's scala-library version: 3.3.3[0m
+Sep 08, 2024 11:49:40 PM org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNING: Unmatched cancel notification for request id 8
+Sep 08, 2024 11:49:40 PM org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNING: Unmatched cancel notification for request id 5
+2024.09.08 23:49:40 WARN  no build target for: /home/math/cs332-assign/recfun/src/main/scala/common/package.scala[0m
+2024.09.08 23:49:40 INFO  no build target found for /home/math/cs332-assign/recfun/src/main/scala/common/package.scala. Using presentation compiler with project's scala-library version: 3.3.3[0m
+Sep 08, 2024 11:49:40 PM org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNING: Unmatched cancel notification for request id 12
+Sep 08, 2024 11:49:40 PM org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNING: Unmatched cancel notification for request id 10
+Sep 08, 2024 11:49:40 PM org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNING: Unmatched cancel notification for request id 13
+Sep 08, 2024 11:49:40 PM org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNING: Unmatched cancel notification for request id 14
+2024.09.08 23:49:40 INFO  no build target found for /home/math/cs332-assign/recfun/src/test/scala/recfun/BalanceSuite.scala. Using presentation compiler with project's scala-library version: 3.3.3[0m
+2024.09.08 23:49:40 INFO  no build target found for /home/math/cs332-assign/recfun/src/test/scala/recfun/BalanceSuite.scala. Using presentation compiler with project's scala-library version: 3.3.3[0m
+2024.09.08 23:49:40 INFO  no build target found for /home/math/cs332-assign/recfun/src/test/scala/recfun/BalanceSuite.scala. Using presentation compiler with project's scala-library version: 3.3.3[0m
+Sep 08, 2024 11:49:40 PM org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNING: Unmatched cancel notification for request id 18
+2024.09.08 23:49:41 INFO  no build target found for /home/math/cs332-assign/recfun/src/main/scala/common/package.scala. Using presentation compiler with project's scala-library version: 3.3.3[0m
+2024.09.08 23:49:43 INFO  no build target found for /home/math/cs332-assign/recfun/src/main/scala/common/package.scala. Using presentation compiler with project's scala-library version: 3.3.3[0m
+2024.09.08 23:49:44 INFO  no build target found for /home/math/cs332-assign/recfun/src/test/scala/recfun/CountChangeSuite.scala. Using presentation compiler with project's scala-library version: 3.3.3[0m
+2024.09.08 23:49:44 INFO  no build target found for /home/math/cs332-assign/recfun/src/test/scala/recfun/CountChangeSuite.scala. Using presentation compiler with project's scala-library version: 3.3.3[0m
+2024.09.08 23:49:50 INFO  no build target found for /home/math/cs332-assign/recfun/src/main/scala/common/package.scala. Using presentation compiler with project's scala-library version: 3.3.3[0m
+2024.09.08 23:49:52 INFO  no build target found for /home/math/cs332-assign/recfun/src/main/scala/common/package.scala. Using presentation compiler with project's scala-library version: 3.3.3[0m
