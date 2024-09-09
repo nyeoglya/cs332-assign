@@ -1,4 +1,6 @@
 .bsp/
+.vscode/
+.metals/
 project/
 target/
 lib_managed/
