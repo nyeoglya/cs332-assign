@@ -30,8 +30,7 @@ object Main {
         }
         innerRecursive(chars, 0)
     }
-
-
+    
     /**
      * Exercise 3
      */
