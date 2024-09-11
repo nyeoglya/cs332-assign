@@ -14,7 +14,9 @@ object Main {
      * Exercise 1
      */
     def pascal(c: Int, r: Int): Int = {
-        if (c*r == 0 || c == r) 1
+        if (c < 0 || r < 0) throw new IllegalArgumentException("column and row must be non negative integer")
+        if (c > r) 0
+        else if (c*r == 0 || c == r) 1
         else pascal(c, r-1) + pascal(c-1, r-1)
     }
 
