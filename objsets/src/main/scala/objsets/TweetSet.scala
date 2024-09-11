@@ -42,6 +42,7 @@ abstract class TweetSet {
    * Question: Can we implment this method here, or should it remain abstract
    * and be implemented in the subclasses?
    */
+  // Empty, NonEmpty에 동시에 적용가능하기 때문에 밖에서 선언해도 문제는 없다.
   def filter(p: Tweet => Boolean): TweetSet = filterAcc(p, new Empty)
 
   /**
@@ -55,7 +56,8 @@ abstract class TweetSet {
    * Question: Should we implment this method here, or should it remain abstract
    * and be implemented in the subclasses?
    */
-   def union(that: TweetSet): TweetSet = ???
+  // 클래스 변수가 val 없이 정의되었기 때문에, 추상 클래스에서 간섭할 수가 없다. 즉, subclass에서 정의되어야 한다.
+  def union(that: TweetSet): TweetSet = ???
 
   /**
    * Returns the tweet from this set which has the greatest retweet count.
@@ -112,6 +114,8 @@ class Empty extends TweetSet {
 
   def filterAcc(p: Tweet => Boolean, acc: TweetSet): TweetSet = acc
 
+  override def union(that: TweetSet): TweetSet = that
+
   /**
    * The following methods are already implemented
    */
@@ -130,6 +134,15 @@ class NonEmpty(elem: Tweet, left: TweetSet, right: TweetSet) extends TweetSet {
   def filterAcc(p: Tweet => Boolean, acc: TweetSet): TweetSet = {
     val filteredSubTweet = right.filterAcc(p, left.filterAcc(p, acc))
     if (p(elem)) filteredSubTweet.incl(elem) else filteredSubTweet
+  }
+
+  override def union(that: TweetSet): TweetSet = that match {
+    case _: Empty => this
+    case _: NonEmpty => {
+      val leftUnion: TweetSet = that.union(left)
+      val rightUnion: TweetSet = leftUnion.union(right)
+      rightUnion.incl(elem)
+   }
   }
 
   /**
