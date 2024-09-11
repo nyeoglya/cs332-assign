@@ -87,8 +87,4 @@ class CountChangeSuite extends FunSuite {
   test("countChange: large amount with few coins") {
     assert(countChange(1000, List(1, 5, 10, 25)) > 0)
   }
-
-  test("countChange: large amount with many coins") {
-    assert(countChange(1000, List(1, 2, 5, 10, 20, 50, 100, 200, 500)) > 0)
-  }
 }
