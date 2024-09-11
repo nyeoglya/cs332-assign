@@ -37,8 +37,10 @@ object Main {
      * Exercise 3
      */
     def countChange(money: Int, coins: List[Int]): Int = {
+        val distinctCoins = coins.distinct
+        if (money < 0) 0
         if (money == 0) 1
-        else if (money < 0 || coins.isEmpty) 0
-        else countChange(money - coins.head, coins) + countChange(money, coins.tail)
+        else if (money < 0 || distinctCoins.isEmpty) 0
+        else countChange(money - distinctCoins.head, distinctCoins) + countChange(money, distinctCoins.tail)
     }
 }
