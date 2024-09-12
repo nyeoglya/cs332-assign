@@ -68,7 +68,18 @@ abstract class TweetSet {
    * Question: Should we implment this method here, or should it remain abstract
    * and be implemented in the subclasses?
    */
-  def mostRetweeted: Tweet = ???
+
+  def mostRetweeted: Tweet = {
+    var mostTweet: Option[Tweet] = None
+    this foreach { tweet =>
+      mostTweet match {
+        case Some(most) if most.retweets < tweet.retweets => mostTweet = Some(tweet)
+        case None => mostTweet = Some(tweet)
+        case _ =>
+      }
+    }
+    mostTweet.getOrElse(throw new NoSuchElementException("No tweets available"))
+  }
 
   /**
    * Returns a list containing all tweets of this set, sorted by retweet count
@@ -79,7 +90,16 @@ abstract class TweetSet {
    * Question: Should we implment this method here, or should it remain abstract
    * and be implemented in the subclasses?
    */
-  def descendingByRetweet: TweetList = ???
+  def descendingByRetweet: TweetList = {
+    def descending(acc: TweetSet): TweetList = acc match {
+      case _: Empty => Nil
+      case _: TweetSet => {
+        val mostRetweetedAcc = acc.mostRetweeted
+        new Cons(mostRetweetedAcc, descending(acc.remove(mostRetweetedAcc)))
+      }
+    }
+    descending(this)
+  }
 
 
   /**
