@@ -5,11 +5,9 @@ object TweetReader {
   object ParseTweets {
     import scala.util.parsing.json._
     
-    def getList[T](s: String): List[T] =
-      JSON.parseFull(s).get.asInstanceOf[List[T]]
+    def getList[T](s: String): List[T] = JSON.parseFull(s).get.asInstanceOf[List[T]]
 
-    def getMap(s: String): Map[String, Any] =
-      JSON.parseFull(s).get.asInstanceOf[Map[String, Any]]
+    def getMap(s: String): Map[String, Any] = JSON.parseFull(s).get.asInstanceOf[Map[String, Any]]
 
     def getTweets(user: String, json: String): List[Tweet] =
       for (map <- getList[Map[String, Any]](json)) yield {
@@ -54,8 +52,9 @@ object TweetReader {
   private val gadgetlabTweets = TweetReader.ParseTweets.getTweetData("gadgetlab", TweetData.gadgetlab)
   private val mashableTweets = TweetReader.ParseTweets.getTweetData("mashable", TweetData.mashable)
   
-  private val sources = List(gizmodoTweets, techCrunchTweets, engadgetTweets, amazondealsTweets, cnetTweets, gadgetlabTweets, mashableTweets)
+  private val sources: List[List[objsets.Tweet]] = List(gizmodoTweets, techCrunchTweets, engadgetTweets, amazondealsTweets, cnetTweets, gadgetlabTweets, mashableTweets)
 
+  /*
   val tweetMap: Map[String, List[Tweet]] =
     Map() ++ Seq((sites(0) -> gizmodoTweets),
                  (sites(1) -> techCrunchTweets),
@@ -64,6 +63,7 @@ object TweetReader {
                  (sites(4) -> cnetTweets),
                  (sites(5) -> gadgetlabTweets),
                  (sites(6) -> mashableTweets))
+  */
 
   val tweetSets: List[TweetSet] = sources.map(tweets => toTweetSet(tweets))
   
@@ -75,4 +75,8 @@ object TweetReader {
     else unionOfAllTweetSets(curSets.tail, acc.union(curSets.head))
 
   val allTweets: TweetSet = unionOfAllTweetSets(tweetSets, new Empty)
+  /*{
+    sources.foreach(subList => println(subList.size))
+    toTweetSet(gizmodoTweets)
+  } */
 }

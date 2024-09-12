@@ -149,20 +149,21 @@ class Empty extends TweetSet {
   def foreach(f: Tweet => Unit): Unit = ()
 }
 
-class NonEmpty(elem: Tweet, left: TweetSet, right: TweetSet) extends TweetSet {
+class NonEmpty(val elem: Tweet, val left: TweetSet, val right: TweetSet) extends TweetSet {
 
   def filterAcc(p: Tweet => Boolean, acc: TweetSet): TweetSet = {
-    val filteredSubTweet = right.filterAcc(p, left.filterAcc(p, acc))
+    val leftFilteredSubTweet = left.filterAcc(p, acc)
+    val filteredSubTweet = right.filterAcc(p, leftFilteredSubTweet)
     if (p(elem)) filteredSubTweet.incl(elem) else filteredSubTweet
   }
 
   override def union(that: TweetSet): TweetSet = that match {
-    case _: Empty => this
-    case _: NonEmpty => {
-      val leftUnion: TweetSet = that.union(left)
-      val rightUnion: TweetSet = leftUnion.union(right)
-      rightUnion.incl(elem)
-   }
+  case _: Empty => this
+  case nonEmpty: NonEmpty => {
+      val leftUnion: TweetSet = this.union(nonEmpty.left)
+      val rightUnion: TweetSet = leftUnion.union(nonEmpty.right)
+      rightUnion.incl(nonEmpty.elem)
+    }
   }
 
   /**
@@ -217,15 +218,27 @@ class Cons(val head: Tweet, val tail: TweetList) extends TweetList {
 object GoogleVsApple {
   val google = List("android", "Android", "galaxy", "Galaxy", "nexus", "Nexus")
   val apple = List("ios", "iOS", "iphone", "iPhone", "ipad", "iPad")
+  val allTweet = TweetReader.allTweets
 
-  lazy val googleTweets: TweetSet = ???
-  lazy val appleTweets: TweetSet = ???
+  /*
+  var tweetSize = 0
+  allTweet.foreach(_ => tweetSize = tweetSize + 1)
+  println("tweetSize", tweetSize)
+  */
+
+  val googleTweets: TweetSet = allTweet.filter { tweet =>
+    google.exists(keyword => tweet.text.contains(keyword))
+  }
+
+  val appleTweets: TweetSet = allTweet.filter { tweet =>
+    apple.exists(keyword => tweet.text.contains(keyword))
+  }
 
   /**
    * A list of all tweets mentioning a keyword from either apple or google,
    * sorted by the number of retweets.
    */
-  lazy val trending: TweetList = ???
+  val trending: TweetList = googleTweets.union(appleTweets).descendingByRetweet
 }
 
 object Main extends App {
