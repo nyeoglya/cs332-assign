@@ -158,9 +158,9 @@ class NonEmpty(val elem: Tweet, val left: TweetSet, val right: TweetSet) extends
   }
 
   override def union(that: TweetSet): TweetSet = that match {
-  case _: Empty => this
-  case nonEmpty: NonEmpty => {
-      val leftUnion: TweetSet = this.union(nonEmpty.left)
+    case _: Empty => this
+    case nonEmpty: NonEmpty => {
+      val leftUnion: TweetSet = union(nonEmpty.left) // this.union이지만, 역할이 똑같기 때문에 this. 생략함
       val rightUnion: TweetSet = leftUnion.union(nonEmpty.right)
       rightUnion.incl(nonEmpty.elem)
     }
