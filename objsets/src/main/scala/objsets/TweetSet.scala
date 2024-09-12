@@ -56,7 +56,7 @@ abstract class TweetSet {
    * Question: Should we implment this method here, or should it remain abstract
    * and be implemented in the subclasses?
    */
-  // 클래스 변수가 val 없이 정의되었기 때문에, 추상 클래스에서 간섭할 수가 없다. 즉, subclass에서 정의되어야 한다.
+  // 클래스 2개에서의 역할이 확연히 다르기 때문에, 효율을 위해 subclass에서 정의되어야 한다.
   def union(that: TweetSet): TweetSet = ???
 
   /**
