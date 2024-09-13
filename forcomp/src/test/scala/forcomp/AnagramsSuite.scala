@@ -49,6 +49,13 @@ class AnagramsSuite extends FunSuite {
     assert(subtract(lard, r) === lad)
   }
 
+  test("subtract: afdfdsassdf - ffads") {
+    val text1 = wordOccurrences("afdfdsassdf")
+    val text2 = wordOccurrences("ffads")
+    val result = wordOccurrences("afssdd")
+    assert(subtract(text1, text2) === result)
+  }
+
 
 
   test("combinations: []") {
