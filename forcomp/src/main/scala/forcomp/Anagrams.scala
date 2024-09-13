@@ -155,9 +155,14 @@ object Anagrams {
   def sentenceAnagrams(sentence: Sentence): List[Sentence] = {
     def sentenceAnagramsAcc(occurrences: Occurrences): List[Sentence] = occurrences match {
       case Nil => List(Nil)
-      case _ => combinations(occurrences).filter(_.nonEmpty).flatMap { combination => 
-        dictionaryByOccurrences.getOrElse(combination, Nil)
-        .flatMap(word => sentenceAnagramsAcc(subtract(occurrences, wordOccurrences(word))).map(sentence => word :: sentence))
+      case _ => combinations(occurrences).filter(_.nonEmpty).flatMap { combination => // occurences로 가능한 모든 combination을 구하고(빈 리스트 제외), 각 원소에 아래의 함수를 적용한다.
+        dictionaryByOccurrences.get(combination) match { // 각 combination마다 linux word dictionary에서 가능한 단어 목록 받는다.
+          case None => Nil
+          case Some(words) => words.flatMap { word => // 단어 목록에 대해, 각 단어마다 그 단어를 뺀 문장을 다시 재귀 돌린다.
+              sentenceAnagramsAcc(subtract(occurrences, wordOccurrences(word))).map(sentence => word :: sentence) // 그리고, 나온 문장을 단어와 합쳐서 구한다.
+              // 만약, 단어를 빼면서 남은 문장에 더 이상 뺄 단어는 없는데, 문장이 아직 남아있다면 Nil이 반환되어, flatMap에서 제외된다.
+          }
+        }
       }
     }
 
