@@ -226,11 +226,11 @@ object GoogleVsApple {
   println("tweetSize", tweetSize)
   */
 
-  val googleTweets: TweetSet = allTweet.filter { tweet =>
+  lazy val googleTweets: TweetSet = allTweet.filter { tweet =>
     google.exists(keyword => tweet.text.contains(keyword))
   }
 
-  val appleTweets: TweetSet = allTweet.filter { tweet =>
+  lazy val appleTweets: TweetSet = allTweet.filter { tweet =>
     apple.exists(keyword => tweet.text.contains(keyword))
   }
 
@@ -238,7 +238,7 @@ object GoogleVsApple {
    * A list of all tweets mentioning a keyword from either apple or google,
    * sorted by the number of retweets.
    */
-  val trending: TweetList = googleTweets.union(appleTweets).descendingByRetweet
+  lazy val trending: TweetList = googleTweets.union(appleTweets).descendingByRetweet
 }
 
 object Main extends App {
