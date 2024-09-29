@@ -69,4 +69,79 @@ class TweetSetSuite extends FunSuite {
       assert(trends.head.user == "a" || trends.head.user == "b")
     }
   }
+
+  // filter - basic functional test
+  test("filter: tweets with more than 15 likes") {
+    new TestSets {
+      val filtered = set5.filter(t => t.retweets > 15)
+      assert(size(filtered) === 2)
+    }
+  }
+
+  // filter - boundary test
+  test("filter: empty set returns empty set") {
+    new TestSets {
+      assert(size(set1.filter(t => t.retweets > 15)) === 0)
+    }
+  }
+
+  // filter - exception handling test
+  test("filter: tweets with invalid condition (null check)") {
+    new TestSets {
+      intercept[NullPointerException] {
+        set5.filter(null)
+      }
+    }
+  }
+
+  // filterAcc - basic functional test
+  test("filterAcc: filter tweets with exactly 20 retweets") {
+    new TestSets {
+      val filtered = set5.filterAcc(t => t.retweets == 20, new Empty)
+      assert(size(filtered) === 2)
+    }
+  }
+
+  // filterAcc - boundary test
+  test("filterAcc: empty accumulator should return correct filtered set") {
+    new TestSets {
+      val filtered = set1.filterAcc(t => t.retweets > 10, new Empty)
+      assert(size(filtered) === 0)
+    }
+  }
+
+  // filterAcc - exception handling test
+  test("filterAcc: handling null predicate") {
+    new TestSets {
+      intercept[NullPointerException] {
+        set5.filterAcc(null, new Empty)
+      }
+    }
+  }
+
+  // union - basic functional test
+  test("union: combine set4c and set4d") {
+    new TestSets {
+      assert(size(set4c.union(set4d)) === 4)
+    }
+  }
+
+  // union - boundary test
+  test("union: union with empty set should return original set") {
+    new TestSets {
+      assert(size(set5.union(set1)) === 4)
+      assert(size(set1.union(set5)) === 4)
+    }
+  }
+
+  // union - exception handling test
+  test("union: null set should throw Error") {
+    new TestSets {
+      intercept[Throwable] {
+        set5.union(null)
+      }
+    }
+  }
+
+  // INFO: performance test는 sbt run으로 대체
 }

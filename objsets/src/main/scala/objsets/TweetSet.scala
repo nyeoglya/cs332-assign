@@ -134,7 +134,10 @@ class Empty extends TweetSet {
 
   def filterAcc(p: Tweet => Boolean, acc: TweetSet): TweetSet = acc
 
-  override def union(that: TweetSet): TweetSet = that
+  override def union(that: TweetSet): TweetSet = {
+    require(that != null, "Input TweetSet cannot be null")
+    that
+  }
 
   /**
    * The following methods are already implemented
