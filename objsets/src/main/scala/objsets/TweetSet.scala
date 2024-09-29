@@ -220,12 +220,6 @@ object GoogleVsApple {
   val apple = List("ios", "iOS", "iphone", "iPhone", "ipad", "iPad")
   val allTweet = TweetReader.allTweets
 
-  /*
-  var tweetSize = 0
-  allTweet.foreach(_ => tweetSize = tweetSize + 1)
-  println("tweetSize", tweetSize)
-  */
-
   lazy val googleTweets: TweetSet = allTweet.filter { tweet =>
     google.exists(keyword => tweet.text.contains(keyword))
   }
