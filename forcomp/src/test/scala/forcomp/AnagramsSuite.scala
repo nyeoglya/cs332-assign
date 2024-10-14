@@ -19,17 +19,14 @@ class AnagramsSuite extends FunSuite {
   }
 
 
-
   test("sentenceOccurrences: abcd e") {
     assert(sentenceOccurrences(List("abcd", "e")) === List(('a', 1), ('b', 1), ('c', 1), ('d', 1), ('e', 1)))
   }
 
 
-
   test("dictionaryByOccurrences.get: eat") {
     assert(dictionaryByOccurrences.get(List(('a', 1), ('e', 1), ('t', 1))).map(_.toSet) === Some(Set("ate", "eat", "tea")))
   }
-
 
 
   test("word anagrams: married") {
@@ -39,7 +36,6 @@ class AnagramsSuite extends FunSuite {
   test("word anagrams: player") {
     assert(wordAnagrams("player").toSet === Set("parley", "pearly", "player", "replay"))
   }
-
 
 
   test("subtract: lard - r") {
@@ -55,7 +51,6 @@ class AnagramsSuite extends FunSuite {
     val result = wordOccurrences("afssdd")
     assert(subtract(text1, text2) === result)
   }
-
 
 
   test("combinations: []") {
@@ -116,5 +111,99 @@ class AnagramsSuite extends FunSuite {
     val sentence = List("nilz")
     val anas = List()
     assert(sentenceAnagrams(sentence).toSet === anas.toSet)
+  }
+
+  // basic functional test
+  test("Basic Functional Test: sentenceOccurrences with simple sentence") {
+    assert(sentenceOccurrences(List("hello", "world")) === List(('d', 1), ('e', 1), ('h', 1), ('l', 3), ('o', 2), ('r', 1), ('w', 1)))
+  }
+
+  test("Basic Functional Test: wordAnagrams for word 'eat'") {
+    assert(wordAnagrams("eat").toSet === Set("ate", "eat", "tea"))
+  }
+
+  test("Basic Functional Test: subtract with same occurrences") {
+    val occ1 = wordOccurrences("test")
+    assert(subtract(occ1, occ1) === List())
+  }
+
+  test("Basic Functional Test: combinations with single character") {
+    val occ = List(('a', 2))
+    val comb = List(List(), List(('a', 1)), List(('a', 2)))
+    assert(combinations(occ).toSet === comb.toSet)
+  }
+
+  test("Basic Functional Test: sentenceAnagrams for single-word sentence") {
+    val sentence = List("apple")
+    val anas = List(
+      List("apple"),
+      List("pep", "Al"),
+      List("Al", "pep")
+    )
+    assert(sentenceAnagrams(sentence).toSet === anas.toSet)
+  }
+
+  // boundary test
+  test("Boundary Test: sentenceOccurrences with empty list") {
+    assert(sentenceOccurrences(List()) === List())
+  }
+
+  test("Boundary Test: wordAnagrams for empty string") {
+    assert(wordAnagrams("") === List())
+  }
+
+  test("Boundary Test: subtract when second list has larger counts") {
+    val occ1 = wordOccurrences("a")
+    val occ2 = wordOccurrences("aa")
+    assert(subtract(occ1, occ2) === List())
+  }
+
+  test("Boundary Test: combinations with empty list") {
+    assert(combinations(List()) === List(List()))
+  }
+
+  test("Boundary Test: sentenceAnagrams with sentence having empty word") {
+    val sentence = List("")
+    assert(sentenceAnagrams(sentence) === List(List()))
+  }
+
+  // exception handling test
+  test("Exception Handling Test: subtract with non-overlapping occurrences") {
+    val occ1 = wordOccurrences("abc")
+    val occ2 = wordOccurrences("xyz")
+    assert(subtract(occ1, occ2) === occ1) // occ1 반환해야 함
+  }
+
+  test("Exception Handling Test: sentenceOccurrences with non-alphabetic characters") {
+    assert(sentenceOccurrences(List("h3ll0")) === List(('0', 1), ('3', 1), ('h', 1), ('l', 2)))
+  }
+
+  test("Exception Handling Test: wordAnagrams with special characters") {
+    assert(wordAnagrams("@@##!!") === List())
+  }
+
+  // performance test
+  test("Performance Test: sentenceAnagrams with longer sentence") {
+    val sentence = List("scala", "rocks")
+    val result = sentenceAnagrams(sentence)
+    assert(result.nonEmpty)
+  }
+
+  test("Performance Test: combinations with a larger set of occurrences") {
+    val occurrences = List(('a', 50), ('b', 50))
+    val result = combinations(occurrences)
+    assert(result.length > 1000) // 엄청 많은 combination을 만들것이기 때문
+  }
+
+  test("Performance Test: sentenceOccurrences with long word list") {
+    val sentence = List.fill(100)("test")
+    val result = sentenceOccurrences(sentence)
+    assert(result.nonEmpty)
+  }
+
+  test("Performance Test: wordAnagrams for longer word") {
+    val word = "performance"
+    val result = wordAnagrams(word)
+    assert(result.nonEmpty)
   }
 }
