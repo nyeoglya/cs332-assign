@@ -36,10 +36,10 @@ class NodeScalaSuite extends FunSuite {
   class DummyExchange(val request: Request) extends Exchange {
     @volatile var response = ""
     val loaded = Promise[String]()
-    def write(s: String) {
+    def write(s: String) = {
       response += s
     }
-    def close() {
+    def close() = {
       loaded.success(response)
     }
   }
@@ -100,7 +100,7 @@ class NodeScalaSuite extends FunSuite {
     // wait until server is really installed
     Thread.sleep(500)
 
-    def test(req: Request) {
+    def test(req: Request) = {
       val webpage = dummy.emit("/testDir", req)
       val content = Await.result(webpage.loaded.future, 1 second)
       val expected = (for (kv <- req.iterator) yield (kv + "\n").toString).mkString
@@ -113,9 +113,4 @@ class NodeScalaSuite extends FunSuite {
 
     dummySubscription.unsubscribe()
   }
-
 }
-
-
-
-
