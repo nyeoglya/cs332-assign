@@ -5,6 +5,7 @@ import scala.concurrent._
 import scala.concurrent.duration._
 import ExecutionContext.Implicits.global
 import scala.async.Async.{async, await}
+import scala.util.control.NonFatal
 import scala.collection._
 import scala.collection.JavaConversions._
 import java.util.concurrent.{Executor, ThreadPoolExecutor, TimeUnit, LinkedBlockingQueue}
@@ -29,20 +30,41 @@ trait NodeScala {
    *  @param token        the cancellation token
    *  @param body         the response to write back
    */
-  private def respond(exchange: Exchange, token: CancellationToken, response: Response): Unit = ???
+  private def respond(exchange: Exchange, token: CancellationToken, response: Response): Unit = {
+    while(response.hasNext && token.nonCancelled) exchange.write(response.next())
+    exchange.close()
+  }
 
   /** A server:
    *  1) creates and starts an http listener
    *  2) creates a cancellation token (hint: use one of the `Future` companion methods)
-   *  3) as long as the token is not cancelled and there is a request from the http listener,
+   *  3) as long as the token is not cancelled and there is a request from the http listener
    *     asynchronously process that request using the `respond` method
    *
-   *  @param relativePath   a relative path on which to start listening
+   *  @param relativePath   a relative path on which to start listening on
    *  @param handler        a function mapping a request to a response
-   *  @return               a subscription that can stop the server and all its asynchronous operations *entirely*
+   *  @return               a subscription that can stop the server and all its asynchronous operations *entirely*.
    */
-  def start(relativePath: String)(handler: Request => Response): Subscription = ???
+  def start(relativePath: String)(handler: Request => Response): Subscription = {
+    // Step 1
+    val listener = createListener(relativePath)
+    val listenerStart = listener.start()
 
+    // Step 2
+    val subscription = Future.run() { token =>
+      // Step 3
+      Future {
+        async {
+          while (token.nonCancelled) {
+            val (request, exchange) = await(listener.nextRequest())
+            Future { respond(exchange, token, handler(request)) }
+          }
+        }
+      }
+    }
+
+    Subscription(listenerStart, subscription)
+  }
 }
 
 
@@ -152,5 +174,4 @@ object NodeScala {
   class Default(val port: Int) extends NodeScala {
     def createListener(relativePath: String) = new Listener.Default(port, relativePath)
   }
-
 }
